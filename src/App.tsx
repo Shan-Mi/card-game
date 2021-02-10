@@ -41,7 +41,7 @@ interface Guess {
 
 function App() {
   const [deck, setDeck] = useState<Deck>();
-  const [cards, setCards] = useState<Card[]>([]);
+  const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
   const [currCard, setCurrCard] = useState<Card>();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isDrawCardDisabled, setIsDrawCardDisabled] = useState<boolean>(false);
@@ -61,7 +61,7 @@ function App() {
     fetchData();
     calcScore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
+  }, [cardsOnBoard]);
 
   const handleNewGame = async () => {
     const { data } = await axios.get(NewRoundURL);
@@ -77,7 +77,9 @@ function App() {
         data: { cards },
       } = await axios.get(drawOneCardFrom(deck?.deck_id));
       setCurrCard(cards[0]);
-      setCards([...cards, cards[0]]);
+      currCard
+        ? setCardsOnBoard([...cardsOnBoard, cards[0]])
+        : setCardsOnBoard([...cards]);
       setGuess({ ...guess, val: "", myGuess: "" });
     }
     setIsDrawCardDisabled(true);
