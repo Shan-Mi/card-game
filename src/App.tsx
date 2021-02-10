@@ -101,9 +101,7 @@ function App() {
   };
 
   const calcScore = () => {
-    console.log("your guess", guess.myGuess, "than", guess.val);
     if (currCard) {
-      console.log("current card", formatValue(currCard?.value));
       if (guess.myGuess === "higher") {
         const res = formatValue(currCard?.value) - formatValue(guess.val);
         const newScore = res >= 0 ? 1 : 0;
@@ -114,7 +112,6 @@ function App() {
         const res = formatValue(currCard?.value) - formatValue(guess.val);
         const newScore = res < 0 ? 1 : 0;
         setGuess({ ...guess, score: guess.score + newScore });
-        console.log(res);
         return;
       }
     }
@@ -174,7 +171,7 @@ function App() {
           </button>
         </div>
       </div>
-      {guess.myGuess && (
+      {guess.myGuess && !isDrawCardDisabled && (
         <p>
           Your guess: {guess.myGuess} than {guess.val}
         </p>
