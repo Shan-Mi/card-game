@@ -60,6 +60,7 @@ function App() {
     };
     fetchData();
     calcScore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
 
   const handleNewGame = async () => {
