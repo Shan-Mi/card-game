@@ -12,7 +12,7 @@ interface Deck {
   success: boolean;
   deck_id: string;
   cards: Card[];
-  remaining: string;
+  remaining: number;
 }
 
 interface Card {
@@ -42,9 +42,9 @@ interface Guess {
 function App() {
   const [deck, setDeck] = useState<Deck>();
   const [cardsOnBoard, setCardsOnBoard] = useState<Card[]>([]);
-  const [currCard, setCurrCard] = useState<Card>();
+  const [currCard, setCurrCard] = useState<Card | null>();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [isDrawCardDisabled, setIsDrawCardDisabled] = useState<boolean>(false);
+  const [isDrawCardDisabled, setIsDrawCardDisabled] = useState<boolean>(true);
   const [guess, setGuess] = useState<Guess>({
     val: "",
     score: 0,
@@ -60,13 +60,26 @@ function App() {
     };
     fetchData();
     calcScore();
+    if (currCard === undefined) {
+      setGuess({ score: 0, val: "", myGuess: "" });
+      setIsDisabled(false);
+      setIsDrawCardDisabled(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardsOnBoard]);
+  }, [currCard]);
+
+  useEffect(() => {
+    if (deck?.remaining === 0) {
+      setIsDisabled(false);
+    }
+  }, [deck]);
 
   const handleNewGame = async () => {
     const { data } = await axios.get(NewRoundURL);
     setDeck(data);
-    drawOneCard();
+    setGuess({ score: 0, val: "", myGuess: "" });
+    setCardsOnBoard([]);
+    setCurrCard(null);
     setIsDrawCardDisabled(false);
     setIsDisabled(true);
   };
@@ -77,14 +90,12 @@ function App() {
         data: { cards },
       } = await axios.get(drawOneCardFrom(deck?.deck_id));
       setCurrCard(cards[0]);
-      currCard
-        ? setCardsOnBoard([...cardsOnBoard, cards[0]])
-        : setCardsOnBoard([...cards]);
-      setGuess({ ...guess, val: "", myGuess: "" });
+      // when there is no card, cards[0] === undefined
+      // we don't want to push this value into cards
+      cards[0] !== undefined && setCardsOnBoard([...cardsOnBoard, cards[0]]);
+      setIsDrawCardDisabled(true);
     }
-    setIsDrawCardDisabled(true);
   };
-  // const;
 
   const handleGuess = (val: string) => {
     if (val === "higher") {
