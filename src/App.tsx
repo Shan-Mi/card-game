@@ -53,9 +53,13 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (deck?.deck_id) {
-        const { data } = await axios.get(getDeckStatus(deck?.deck_id));
-        setDeck(data);
+      try {
+        if (deck?.deck_id) {
+          const { data } = await axios.get(getDeckStatus(deck?.deck_id));
+          setDeck(data);
+        }
+      } catch (e) {
+        console.error(e);
       }
     };
     fetchData();
@@ -75,25 +79,33 @@ function App() {
   }, [deck]);
 
   const handleNewGame = async () => {
-    const { data } = await axios.get(NewRoundURL);
-    setDeck(data);
-    setGuess({ score: 0, val: "", myGuess: "" });
-    setCardsOnBoard([]);
-    setCurrCard(null);
-    setIsDrawCardDisabled(false);
-    setIsDisabled(true);
+    try {
+      const { data } = await axios.get(NewRoundURL);
+      setDeck(data);
+      setGuess({ score: 0, val: "", myGuess: "" });
+      setCardsOnBoard([]);
+      setCurrCard(null);
+      setIsDrawCardDisabled(false);
+      setIsDisabled(true);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const drawOneCard = async () => {
-    if (deck) {
-      const {
-        data: { cards },
-      } = await axios.get(drawOneCardFrom(deck?.deck_id));
-      setCurrCard(cards[0]);
-      // when there is no card, cards[0] === undefined
-      // we don't want to push this value into cards
-      cards[0] !== undefined && setCardsOnBoard([...cardsOnBoard, cards[0]]);
-      setIsDrawCardDisabled(true);
+    try {
+      if (deck) {
+        const {
+          data: { cards },
+        } = await axios.get(drawOneCardFrom(deck?.deck_id));
+        setCurrCard(cards[0]);
+        // when there is no card, cards[0] === undefined
+        // we don't want to push this value into cards
+        cards[0] !== undefined && setCardsOnBoard([...cardsOnBoard, cards[0]]);
+        setIsDrawCardDisabled(true);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
