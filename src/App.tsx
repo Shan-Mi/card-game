@@ -66,8 +66,6 @@ function App() {
     const { data } = await axios.get(NewRoundURL);
     setDeck(data);
     drawOneCard();
-    // setCards)
-    // console.log(data);
     setIsDrawCardDisabled(false);
     setIsDisabled(true);
   };
@@ -77,10 +75,8 @@ function App() {
       const {
         data: { cards },
       } = await axios.get(drawOneCardFrom(deck?.deck_id));
-      // console.log(cards[0]);
       setCurrCard(cards[0]);
       setCards([...cards, cards[0]]);
-      // console.log(cards);
       setGuess({ ...guess, val: "", myGuess: "" });
     }
     setIsDrawCardDisabled(true);
@@ -113,7 +109,6 @@ function App() {
         const newScore = res >= 0 ? 1 : 0;
         setGuess({ ...guess, score: guess.score + newScore });
         return;
-        // console.log(res);
       }
       if (guess.myGuess === "lower") {
         const res = formatValue(currCard?.value) - formatValue(guess.val);
