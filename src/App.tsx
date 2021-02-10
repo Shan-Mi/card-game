@@ -68,6 +68,7 @@ function App() {
     drawOneCard();
     // setCards)
     // console.log(data);
+    setIsDrawCardDisabled(false);
     setIsDisabled(true);
   };
 
