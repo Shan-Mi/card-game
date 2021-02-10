@@ -1,5 +1,9 @@
 # Guess your card
 
+run `yarn` to install all dependencies,
+
+`yarn start` to generate tailwind.css and start app
+
 [api](https://deckofcardsapi.com/api/)
 
 **higher means bigger or equal to**
