@@ -4,7 +4,7 @@ run `yarn` to install all dependencies
 
 `yarn start` to generate tailwind.css and start app
 
-[api](https://deckofcardsapi.com/api/)
+[api](https://deckofcardsapi.com/)
 
 **higher means bigger or equal to**
 
