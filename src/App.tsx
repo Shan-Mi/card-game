@@ -11,7 +11,7 @@ const getDeckStatus = (deckId: string) =>
 interface Deck {
   success: boolean;
   deck_id: string;
-  cards: Card[];
+  shuffled: boolean;
   remaining: number;
 }
 
