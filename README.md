@@ -19,3 +19,4 @@ run `yarn` to install all dependencies
 - Avoid multiple fetch data!!! 
 - Should fetch all data back when click begin btn!!!
 - Should persist data in local storage or context!!!
+- Use useReducer to manager state, idiot.
